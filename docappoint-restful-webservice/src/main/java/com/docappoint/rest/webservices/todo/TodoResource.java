@@ -19,6 +19,8 @@ import com.docappoint.rest.webservices.todo.TodoHardcodedService;
 @RestController
 public class TodoResource {
 	
+	
+	// dependency injection of TodoHardcodedService
 	@Autowired
 	private TodoHardcodedService todoService;
 	
