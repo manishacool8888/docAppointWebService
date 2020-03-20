@@ -1,5 +1,6 @@
 package com.docappoint.rest.webservices.todo;
 
+import java.net.URI;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import com.docappoint.rest.webservices.todo.Todo;
 import com.docappoint.rest.webservices.todo.TodoHardcodedService;
 
@@ -53,11 +56,15 @@ public class TodoResource {
 		return new ResponseEntity<Todo>(todoUpdated,HttpStatus.OK);
 	}
 	
-	@PostMapping("/users/{username}/todos/{id}")
-	public ResponseEntity<Todo> createTodo(
+	@PostMapping("/users/{username}/todos")
+	public ResponseEntity<Void> createTodo(
 			@PathVariable String username, @PathVariable long id, @RequestBody Todo todo){
 		
-		Todo todoUpdated=todoService.save(todo);
-		return new ResponseEntity<Todo>(todoUpdated,HttpStatus.OK);
+		Todo createdToDo=todoService.save(todo);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+				.path("/{id}").buildAndExpand(createdToDo.getId()).toUri();
+		
+		return ResponseEntity.created(uri).build();
 	}
+	
 }
