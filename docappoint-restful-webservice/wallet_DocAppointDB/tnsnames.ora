@@ -1,0 +1,10 @@
+docappointdb_high = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ap-mumbai-1.oraclecloud.com))(connect_data=(service_name=trlizhsph0ksnal_docappointdb_high.atp.oraclecloud.com))(security=(ssl_server_cert_dn="CN=adb.ap-mumbai-1.oraclecloud.com,OU=Oracle ADB INDIA,O=Oracle Corporation,L=Redwood City,ST=California,C=US")))
+
+docappointdb_low = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ap-mumbai-1.oraclecloud.com))(connect_data=(service_name=trlizhsph0ksnal_docappointdb_low.atp.oraclecloud.com))(security=(ssl_server_cert_dn="CN=adb.ap-mumbai-1.oraclecloud.com,OU=Oracle ADB INDIA,O=Oracle Corporation,L=Redwood City,ST=California,C=US")))
+
+docappointdb_medium = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ap-mumbai-1.oraclecloud.com))(connect_data=(service_name=trlizhsph0ksnal_docappointdb_medium.atp.oraclecloud.com))(security=(ssl_server_cert_dn="CN=adb.ap-mumbai-1.oraclecloud.com,OU=Oracle ADB INDIA,O=Oracle Corporation,L=Redwood City,ST=California,C=US")))
+
+docappointdb_tp = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ap-mumbai-1.oraclecloud.com))(connect_data=(service_name=trlizhsph0ksnal_docappointdb_tp.atp.oraclecloud.com))(security=(ssl_server_cert_dn="CN=adb.ap-mumbai-1.oraclecloud.com,OU=Oracle ADB INDIA,O=Oracle Corporation,L=Redwood City,ST=California,C=US")))
+
+docappointdb_tpurgent = (description= (retry_count=20)(retry_delay=3)(address=(protocol=tcps)(port=1522)(host=adb.ap-mumbai-1.oraclecloud.com))(connect_data=(service_name=trlizhsph0ksnal_docappointdb_tpurgent.atp.oraclecloud.com))(security=(ssl_server_cert_dn="CN=adb.ap-mumbai-1.oraclecloud.com,OU=Oracle ADB INDIA,O=Oracle Corporation,L=Redwood City,ST=California,C=US")))
+
