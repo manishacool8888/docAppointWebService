@@ -1,6 +1,6 @@
-package com.docappoint.rest.webservices.todo;
+package com.docappoint.todo;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Todo {
 

@@ -1,4 +1,4 @@
-package com.docappoint.rest.webservices.todo;
+package com.docappoint.todo;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,10 +12,10 @@ public class TodoHardcodedService {
 	private static int idCounter=0;
 	
 	static {
-		todos.add(new Todo(++idCounter,"userOne","Learn to Dance",new Date(),false));
-		todos.add(new Todo(++idCounter,"userTwo","Learn Microservices",new Date(),false));
-		todos.add(new Todo(++idCounter,"userThree","Learn Angular",new Date(),false));
-		todos.add(new Todo(++idCounter,"userFour","Learn Java",new Date(),false));
+		todos.add(new Todo(++idCounter,"userOne","Learn to Dance",new java.sql.Date(2020, 02, 23),false));
+		todos.add(new Todo(++idCounter,"userTwo","Learn Microservices",new java.sql.Date(2020, 02, 23),false));
+		todos.add(new Todo(++idCounter,"userThree","Learn Angular",new java.sql.Date(2020, 02, 23),false));
+		todos.add(new Todo(++idCounter,"userFour","Learn Java",new java.sql.Date(2020, 02, 23),false));
 	}
 	
 	public List<Todo> findAll(){

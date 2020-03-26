@@ -12,7 +12,7 @@
 	<artifactId>docappoint-restful-webservice</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>docappoint-restful-webservice</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Online Doctor's Appointment Webservice</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -31,15 +31,26 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
-
+		
+		<!-- <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency> -->
+		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 			<optional>true</optional>
 		</dependency>
-
-		<!-- Oracle database dependency -->
+		
+		<!-- <dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.9</version>
+		</dependency>  -->
+		
+		<!-- Oracle database dependency start-->
 		<dependency>
 		    <groupId>com.oracle</groupId>
 		    <artifactId>ojdbc8</artifactId>
@@ -60,6 +71,7 @@
 		    <artifactId>osdt_cert</artifactId>
 		    <version>18.3</version>
 		</dependency>
+		<!-- Oracle database dependency end-->
 		
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -82,5 +94,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

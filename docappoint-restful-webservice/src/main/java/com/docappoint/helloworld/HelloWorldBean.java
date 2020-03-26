@@ -1,4 +1,4 @@
-package com.docappoint.rest.webservices.helloworld;
+package com.docappoint.helloworld;
 
 public class HelloWorldBean {
 
