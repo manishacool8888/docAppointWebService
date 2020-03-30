@@ -30,6 +30,11 @@ public class DocAppointPublicServices{
 			
 			registrationResponse = patientRepo.registerPatient(patientDetails);
 			
+			if(null==registrationResponse) {
+				registrationResponse.setUsername(patientDetails.getPatient_id());
+				registrationResponse.setRegistrationSuccess(false);
+			}
+			
 		}catch(Exception ex) {
 			logger.error("Exception while registering patient with username:{}, message:{}"
 					,patientDetails.getPatient_id(),ex.getMessage());

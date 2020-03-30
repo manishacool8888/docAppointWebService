@@ -9,6 +9,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import com.docappoint.bean.UserAuthData;
 import com.docappoint.constants.DbConstants;
 import com.docappoint.constants.DbQueryConstant;
 import com.docappoint.dao.TestDataDao;
@@ -32,12 +33,13 @@ public class CommonRepository {
 		return testDataList;
 	}
 	
-	public AuthResponseBean getLoginData(String username) {
+	public UserAuthData fetchUserRoleData(String username) {
 		logger.info("Entering getLoginData with username:{}",username);
 		
-		RowMapper<AuthResponseBean> rowMapper = (rs, rowNum) -> {
-			AuthResponseBean authResponse = new AuthResponseBean(rs.getString(DbConstants.USER_USERNAME)
-																,rs.getString(DbConstants.AUTH_AUTHORITY));
+		RowMapper<UserAuthData> rowMapper = (rs, rowNum) -> {
+			UserAuthData authResponse = new UserAuthData(rs.getString(DbConstants.USER_USERNAME)
+														,rs.getString(DbConstants.USER_ENABLED)
+														,rs.getString(DbConstants.AUTH_AUTHORITY));
 			return authResponse;
 		};
 		

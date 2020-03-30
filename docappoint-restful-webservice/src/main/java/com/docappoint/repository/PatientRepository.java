@@ -19,6 +19,18 @@ public class PatientRepository {
 	
 	private static final Logger logger = LoggerFactory.getLogger(PatientRepository.class);
 	
+	public String fetchPatientFirstName(String patient_id) {
+		logger.info("fetching Patient First name");
+		logger.info("queryFetchStates:"+DbQueryConstant.queryFetchPatientFirstName);
+		
+		String patient_fist_name="";
+		patient_fist_name = (String) jdbcTemplate.queryForObject(DbQueryConstant.queryFetchPatientFirstName
+																,new Object[] {patient_id}
+																,String.class);
+		
+		return patient_fist_name;
+	}
+	
 	@Transactional
 	public PatientRegistrationResponse registerPatient(RegisterPatientBean patientDetails) {
 		

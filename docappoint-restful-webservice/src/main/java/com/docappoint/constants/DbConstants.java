@@ -5,6 +5,7 @@ public class DbConstants {
 	// Table USERS columns
 	public static final String USER_USERNAME="USERNAME";
 	public static final String USER_PASSWORD="PASSWORD";
+	public static final String USER_ENABLED="ENABLED";
 	
 	public static final String AUTH_USERNAME="USERNAME";
 	public static final String AUTH_AUTHORITY="AUTHORITY";

@@ -28,8 +28,8 @@ public class SpringSecurityConfigurationBasicAuth extends WebSecurityConfigurerA
 		http
 		.csrf().disable()
 		.authorizeRequests()
-		.antMatchers(HttpMethod.OPTIONS,"/api/patient/**").hasRole(ApplicationConstants.ROLE_PATIENT)
-		.antMatchers(HttpMethod.OPTIONS,"/api/doctor/**").hasRole(ApplicationConstants.ROLE_DOCTOR)
+		.antMatchers(HttpMethod.OPTIONS,"/api/patient/**").hasRole(ApplicationConstants.PATIENT)
+		.antMatchers(HttpMethod.OPTIONS,"/api/doctor/**").hasRole(ApplicationConstants.DOCTOR)
 		.antMatchers(HttpMethod.OPTIONS,"/**").permitAll()
 			.anyRequest().authenticated()
 			.and()

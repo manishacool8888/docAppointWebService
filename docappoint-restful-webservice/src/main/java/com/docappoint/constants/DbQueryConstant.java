@@ -2,7 +2,9 @@ package com.docappoint.constants;
 
 public class DbQueryConstant {
 
-	public static final String queryFetchLoginDtls="select usr.username, auth.authority from users usr,authorities auth where usr.username=? and auth.username=?";
+	public static final String queryFetchLoginDtls="select usr.username,usr.enabled, auth.authority from users usr,authorities auth where usr.username=? and auth.username=?";
+	public static final String queryFetchPatientFirstName="select first_name from patient_details where patient_id=?";
+	public static final String queryFetchDoctorFirstName="select first_name from doctor_details where doctor_id=?";
 	
 	public static final String queryInsertUsers="insert into users (USERNAME,PASSWORD,ENABLED) values (?,?,?)";
 	public static final String queryInsertAuthorities="insert into authorities (USERNAME,AUTHORITY) values (?,?)";
