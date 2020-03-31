@@ -11,8 +11,13 @@ public class DbQueryConstant {
 	public static final String queryInsetPatientDetails="insert into patient_details (patient_id,first_name,last_name,date_of_birth,gender) values (?,?,?,?,?)";
 	public static final String queryInsertPatientContact="insert into patient_contact (patient_id,address_line_one,address_line_two,state,city,pincode,primary_mobile_number,alternate_mobile_number,alternate_email_id) values (?,?,?,?,?,?,?,?,?)";
 	
+	public static final String queryUpdatePatientDetails="update patient_details set first_name=?, last_name=?, date_of_birth=? ,gender=? where patient_id=?";
+	public static final String queryUpdatePatientContact="update patient_contact set address_line_one=?, address_line_two=?, state=?, city=?, pincode=?, primary_mobile_number=?, alternate_mobile_number=?,alternate_email_id=? where patient_id=?";
+	
+	public static final String queryFetchPatientProfile="select pd.patient_id, pd.first_name,pd.last_name,pd.date_of_birth,pd.gender, pc.address_line_one,pc.address_line_two,pc.state,pc.city,pc.pincode,pc.primary_mobile_number,pc.alternate_mobile_number,pc.alternate_email_id from patient_details pd , patient_contact pc where pc.patient_id=? and pd.patient_id=?";
+	
 	public static final String queryFetchStates="select state_name from states";
 	public static final String queryFetchCity="select city_name from city where state_name=?";
 	public static final String queryFetchLocality="select locality_name from city_locality where city_name=?";
-	
+
 }

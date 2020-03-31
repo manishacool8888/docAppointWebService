@@ -26,7 +26,7 @@ public class DbConstants {
 	public static final String PT_CONT_PINCODE="pincode";
 	public static final String PT_CONT_PRIMARY_MOBILE="primary_mobile_number";
 	public static final String PT_CONT_ALT_MOBILE="alternate_mobile_number";
-	public static final String PT_CONT_EMAIL="alternate_email_id";
+	public static final String PT_CONT_ALT_EMAIL="alternate_email_id";
 	
 	
 	/*******************************************************************************/
