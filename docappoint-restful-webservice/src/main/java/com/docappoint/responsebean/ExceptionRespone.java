@@ -1,10 +1,9 @@
-package com.docappoint.bean;
+package com.docappoint.responsebean;
 
 public class ExceptionRespone {
 
 	private String message;
 	private String details;
-	
 	
 	public ExceptionRespone(String message,String details) {
 		this.message=message;
@@ -23,6 +22,4 @@ public class ExceptionRespone {
 	public void setDetails(String details) {
 		this.details = details;
 	}
-	
-	
 }

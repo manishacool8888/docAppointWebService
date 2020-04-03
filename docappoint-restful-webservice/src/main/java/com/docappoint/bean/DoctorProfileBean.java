@@ -1,17 +1,16 @@
-package com.docappoint.requestbean;
+package com.docappoint.bean;
 
 import java.util.Date;
 
-public class RegisterDoctorBean {
+public class DoctorProfileBean {
 
 	private String doctor_id;
-	private String password;
 	private String first_name;
 	private String last_name;
     public  Date   date_of_birth;
     private String gender;
     public  Date   practicing_from;
-    public String  speciality_name;
+    public  String speciality_name;
     public  int    consultation_fee;
     private String address_line_one;
     private String address_line_two;
@@ -31,14 +30,6 @@ public class RegisterDoctorBean {
 	
 	public void setDoctor_id(String doctor_id) {
 		this.doctor_id = doctor_id;
-	}
-	
-	public String getPassword() {
-		return password;
-	}
-	
-	public void setPassword(String password) {
-		this.password = password;
 	}
 	
 	public String getFirst_name() {
@@ -184,4 +175,5 @@ public class RegisterDoctorBean {
 	public void setProcurement_date(Date procurement_date) {
 		this.procurement_date = procurement_date;
 	}
+    
 }

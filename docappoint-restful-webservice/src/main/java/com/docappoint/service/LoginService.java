@@ -10,6 +10,7 @@ import com.docappoint.repository.CommonRepository;
 import com.docappoint.repository.DoctorRepository;
 import com.docappoint.repository.PatientRepository;
 import com.docappoint.responsebean.AuthResponseBean;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

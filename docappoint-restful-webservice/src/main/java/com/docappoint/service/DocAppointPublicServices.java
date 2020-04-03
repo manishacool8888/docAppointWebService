@@ -1,16 +1,17 @@
 package com.docappoint.service;
 
 import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.docappoint.repository.CommonRepository;
+import com.docappoint.repository.DoctorRepository;
 import com.docappoint.repository.PatientRepository;
+import com.docappoint.requestbean.RegisterDoctorBean;
 import com.docappoint.requestbean.RegisterPatientBean;
-import com.docappoint.responsebean.PatientRegistrationResponse;
+import com.docappoint.responsebean.RegistrationResponse;
+import com.docappoint.responsebean.SpecialityList;
 
 @Service
 public class DocAppointPublicServices{
@@ -19,18 +20,22 @@ public class DocAppointPublicServices{
 	PatientRepository patientRepo;
 	
 	@Autowired
+	DoctorRepository docRepo;
+	
+	@Autowired
 	CommonRepository commonRepo;
 	
 	private static final Logger logger = LoggerFactory.getLogger(DocAppointPublicServices.class);
 	
-	public  PatientRegistrationResponse registerPatient(RegisterPatientBean patientDetails) {
-		PatientRegistrationResponse registrationResponse=null;
+	public  RegistrationResponse registerPatient(RegisterPatientBean patientDetails) {
+		RegistrationResponse registrationResponse=null;
 		
 		try {
 			
 			registrationResponse = patientRepo.registerPatient(patientDetails);
 			
 			if(null==registrationResponse) {
+				registrationResponse = new RegistrationResponse();
 				registrationResponse.setUsername(patientDetails.getPatient_id());
 				registrationResponse.setRegistrationSuccess(false);
 			}
@@ -38,6 +43,27 @@ public class DocAppointPublicServices{
 		}catch(Exception ex) {
 			logger.error("Exception while registering patient with username:{}, message:{}"
 					,patientDetails.getPatient_id(),ex.getMessage());
+		}
+		
+		return registrationResponse;
+	}
+	
+	public  RegistrationResponse registerDoctor(RegisterDoctorBean doctorDetails) {
+		RegistrationResponse registrationResponse=null;
+		
+		try {
+			
+			registrationResponse = docRepo.registerDoctor(doctorDetails);
+			
+			if(null==registrationResponse) {
+				registrationResponse = new RegistrationResponse();
+				registrationResponse.setUsername(doctorDetails.getDoctor_id());
+				registrationResponse.setRegistrationSuccess(false);
+			}
+			
+		}catch(Exception ex) {
+			logger.error("Exception while registering doctor with username:{}, message:{}"
+					,doctorDetails.getDoctor_id(),ex.getMessage());
 		}
 		
 		return registrationResponse;
@@ -74,6 +100,18 @@ public class DocAppointPublicServices{
 			logger.error("Exception while fetching city locality list, message:"+ex.getMessage());
 		}
 		return localityList;
+	}
+	
+	public List<SpecialityList> getSpecialityList(){
+		List<SpecialityList> specialityList = null;
+		
+		try {
+			specialityList = commonRepo.fetchSpeciality();
+		}catch(Exception ex) {
+			logger.error("Exception while fetching specialityList, message:"+ex.getMessage());
+		}
+		
+		return specialityList;
 	}
 	
 }

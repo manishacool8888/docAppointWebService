@@ -19,8 +19,8 @@ import com.docappoint.constants.DbConstants;
 import com.docappoint.constants.DbQueryConstant;
 import com.docappoint.dao.TestDataDao;
 import com.docappoint.requestbean.RegisterPatientBean;
-import com.docappoint.responsebean.PatientProfileUpdateResponse;
-import com.docappoint.responsebean.PatientRegistrationResponse;
+import com.docappoint.responsebean.ProfileUpdateResponse;
+import com.docappoint.responsebean.RegistrationResponse;
 
 @Repository
 public class PatientRepository {
@@ -43,7 +43,7 @@ public class PatientRepository {
 	}
 	
 	@Transactional
-	public PatientRegistrationResponse registerPatient(RegisterPatientBean patientDetails) {
+	public RegistrationResponse registerPatient(RegisterPatientBean patientDetails) {
 		
 		logger.info("Entering registerPatient for user:{}",patientDetails.getPatient_id());
 		logger.info("queryInsertUsers:{}",DbQueryConstant.queryInsertUsers);
@@ -51,7 +51,7 @@ public class PatientRepository {
 		logger.info("queryInsetPatientDetails:{}",DbQueryConstant.queryInsetPatientDetails);
 		logger.info("queryInsertPatientContact:{}",DbQueryConstant.queryInsertPatientContact);
 		
-		PatientRegistrationResponse registrationResponse=null;
+		RegistrationResponse registrationResponse=null;
 		
 		int usersInsertSuccess = jdbcTemplate.update(DbQueryConstant.queryInsertUsers
 				                                   ,patientDetails.getPatient_id()
@@ -83,7 +83,7 @@ public class PatientRepository {
 		if(usersInsertSuccess>0 && authoritiesInsertSuccess>0 
 				&& patientDetailsInsertSuccess>0  && patientContactInsertSuccess>0) {
 			
-			registrationResponse = new PatientRegistrationResponse();
+			registrationResponse = new RegistrationResponse();
 			registrationResponse.setUsername(patientDetails.getPatient_id());
 			registrationResponse.setUser_role(ApplicationConstants.ROLE_PATIENT);
 			registrationResponse.setRegistrationSuccess(true);
@@ -93,14 +93,14 @@ public class PatientRepository {
 	}
 	
 	@Transactional
-	public PatientProfileUpdateResponse updatePatientProfile(PatientProfileBean patientProfile) {
+	public ProfileUpdateResponse updatePatientProfile(PatientProfileBean patientProfile) {
 		
 		logger.info("Entering update profile for user:{}",patientProfile.getPatient_id());
 		
 		logger.info("queryUpdatePatientDetails:{}",DbQueryConstant.queryUpdatePatientDetails);
 		logger.info("queryUpdatePatientContact:{}",DbQueryConstant.queryUpdatePatientContact);
 		
-		PatientProfileUpdateResponse profileUpdateResponse= new PatientProfileUpdateResponse();
+		ProfileUpdateResponse profileUpdateResponse= new ProfileUpdateResponse();
 		
 		int patientProfileUpdateSuccess = jdbcTemplate.update(DbQueryConstant.queryUpdatePatientDetails
 						

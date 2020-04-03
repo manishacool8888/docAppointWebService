@@ -9,11 +9,12 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+
 import com.docappoint.bean.UserAuthData;
 import com.docappoint.constants.DbConstants;
 import com.docappoint.constants.DbQueryConstant;
 import com.docappoint.dao.TestDataDao;
-import com.docappoint.responsebean.AuthResponseBean;
+import com.docappoint.responsebean.SpecialityList;
 
 @Repository
 public class CommonRepository {
@@ -83,5 +84,16 @@ public class CommonRepository {
 													,new Object[] {city}
 													,String.class);
 		return cityLocalityList;
+	}
+	
+	public List<SpecialityList> fetchSpeciality(){
+		logger.info("fetching Speciality List");
+		
+		List<SpecialityList> SpecialityList = new ArrayList<SpecialityList>();
+		
+		SpecialityList = jdbcTemplate.queryForList(DbQueryConstant.queryFetchSpeciality
+												   ,SpecialityList.class);
+		
+		return SpecialityList;
 	}
 }

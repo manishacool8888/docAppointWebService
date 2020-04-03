@@ -1,9 +1,9 @@
 package com.docappoint.responsebean;
 
-public class PatientProfileUpdateResponse {
+public class ProfileUpdateResponse {
 
 	private String username;
-    private String profileUpdated;
+    private String profileUpdated; // Y or N
     
 	public String getUsername() {
 		return username;

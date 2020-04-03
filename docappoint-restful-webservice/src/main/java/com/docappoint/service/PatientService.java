@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.docappoint.bean.PatientProfileBean;
 import com.docappoint.repository.PatientRepository;
-import com.docappoint.responsebean.PatientProfileUpdateResponse;
+import com.docappoint.responsebean.ProfileUpdateResponse;
 
 @Service
 public class PatientService {
@@ -17,8 +17,8 @@ public class PatientService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(PatientService.class);
 	
-	public PatientProfileUpdateResponse updatePatientProfile(PatientProfileBean patientProfile) {
-		PatientProfileUpdateResponse profileUpdateResponse=null;
+	public ProfileUpdateResponse updatePatientProfile(PatientProfileBean patientProfile) {
+		ProfileUpdateResponse profileUpdateResponse=null;
 		
 		try {
 			profileUpdateResponse = patientRepo.updatePatientProfile(patientProfile);

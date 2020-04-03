@@ -4,10 +4,10 @@ import java.util.Date;
 
 public class DocAppointBookings {
 
-	private int booking_id;
+	private int    booking_id;
     private String first_name;
     private String speciality_name;
-    private Date booking_date;
+    private Date   booking_date;
     private String start_time;
     private String end_time;
     private String meridiem_indicator;

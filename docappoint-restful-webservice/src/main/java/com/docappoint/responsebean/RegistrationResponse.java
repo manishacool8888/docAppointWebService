@@ -1,6 +1,6 @@
 package com.docappoint.responsebean;
 
-public class PatientRegistrationResponse {
+public class RegistrationResponse {
 
 	private String username;
 	private String user_role;
