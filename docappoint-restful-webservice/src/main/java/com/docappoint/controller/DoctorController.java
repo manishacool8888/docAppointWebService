@@ -1,11 +1,11 @@
 package com.docappoint.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.docappoint.bean.DoctorProfileBean;
+import com.docappoint.requestbean.NewSlotDetails;
 import com.docappoint.responsebean.DocAppointBookings;
 import com.docappoint.responsebean.ProfileUpdateResponse;
+import com.docappoint.responsebean.ServiceResponse;
+import com.docappoint.responsebean.SlotDetails;
 import com.docappoint.service.DoctorService;
 
 @CrossOrigin(origins="http://localhost:4200")
@@ -40,10 +43,46 @@ public class DoctorController {
 	}
 	
 	@GetMapping(path="/bookings/{username}")
-	public ResponseEntity<?> getAllBookings(@PathVariable String doctorId){
+	public ResponseEntity<?> getAllBookings(@PathVariable String username){
 		
-		List<DocAppointBookings> bookingList = docService.getAllBookings(doctorId);
+		List<DocAppointBookings> bookingList = docService.getAllBookings(username);
 		return new ResponseEntity<List<DocAppointBookings>>(bookingList,HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/{username}/cancelBooking/{booking_id}")
+	public ResponseEntity<?> cancelBooking(@PathVariable String username, @PathVariable long booking_id){
+		
+		ServiceResponse response = docService.cancelBooking(username, booking_id);
+		
+		return new ResponseEntity<ServiceResponse>(response,HttpStatus.OK);
+	}
+	
+	@GetMapping(path="/slots/{username}")
+	public ResponseEntity<?> getAllSlots(@PathVariable String doctorId){
+		List<SlotDetails> slotDetailList = docService.getAllSlots(doctorId);
+		
+		return new ResponseEntity<List<SlotDetails>>(slotDetailList,HttpStatus.OK);
+	}
+	
+	@PostMapping(path="/addSlot", produces="application/json")
+	public ResponseEntity<?> addSlot(@RequestBody NewSlotDetails newSlotDetails) {
+		
+		ServiceResponse response  = docService.addSlot(newSlotDetails);
+		return new ResponseEntity<ServiceResponse>(response,HttpStatus.OK);
+	}
+	
+	@DeleteMapping("/{username}/deleteSlot/{slot_id}")
+	public ResponseEntity<?> deleteSlot(@PathVariable String username, @PathVariable long slot_id){
+		
+		ServiceResponse response  = docService.deleteSlot(username, slot_id);
+		return new ResponseEntity<ServiceResponse>(response,HttpStatus.OK);
+	}
+	
+	@GetMapping(path="/disableAccount/{username}")
+	public ResponseEntity<?> disableAccount(@PathVariable String username){
+		
+		ServiceResponse response  = docService.disableAccount(username);
+		return new ResponseEntity<ServiceResponse>(response,HttpStatus.OK);
 	}
 	
 }

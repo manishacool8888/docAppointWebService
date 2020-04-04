@@ -9,20 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.docappoint.bean.DoctorProfileBean;
-import com.docappoint.bean.PatientProfileBean;
 import com.docappoint.constants.ApplicationConstants;
-import com.docappoint.constants.DbConstants;
 import com.docappoint.constants.DbQueryConstant;
+import com.docappoint.requestbean.NewSlotDetails;
 import com.docappoint.requestbean.RegisterDoctorBean;
-import com.docappoint.requestbean.RegisterPatientBean;
 import com.docappoint.responsebean.DocAppointBookings;
-import com.docappoint.responsebean.ProfileUpdateResponse;
-import com.docappoint.responsebean.RegistrationResponse;
+import com.docappoint.responsebean.SlotDetails;
 
 @Repository
 public class DoctorRepository {
@@ -45,7 +40,7 @@ public class DoctorRepository {
 	}
 	
 	@Transactional
-	public RegistrationResponse registerDoctor(RegisterDoctorBean doctorDetails) {
+	public boolean registerDoctor(RegisterDoctorBean doctorDetails) {
 		
 		logger.info("Entering registerDoctor for user:{}",doctorDetails.getDoctor_id());
 		logger.info("queryInsertUsers:{}",DbQueryConstant.queryInsertUsers);
@@ -55,7 +50,7 @@ public class DoctorRepository {
 		logger.info("queryInsertDoctorQualification:{}",DbQueryConstant.queryInsertDoctorQualification);
 		logger.info("queryInsertDoctorSpeciality:{}",DbQueryConstant.queryInsertDoctorSpeciality);
 		
-		RegistrationResponse registrationResponse=null;
+		boolean isDoctorRegistered = false;
 		
 		int usersInsertSuccess = jdbcTemplate.update(DbQueryConstant.queryInsertUsers
 				                                   ,doctorDetails.getDoctor_id()
@@ -100,17 +95,14 @@ public class DoctorRepository {
 				&& doctorDetailsInsert>0  && doctorContactInsert>0
 				&& doctorQualificationInsert>0 && doctorSpecialityInsert>0) {
 			
-			registrationResponse = new RegistrationResponse();
-			registrationResponse.setUsername(doctorDetails.getDoctor_id());
-			registrationResponse.setUser_role(ApplicationConstants.ROLE_DOCTOR);
-			registrationResponse.setRegistrationSuccess(true);
+			isDoctorRegistered = true;
 		}
 		
-		return registrationResponse;
+		return isDoctorRegistered;
 	}
 	
 	@Transactional
-	public ProfileUpdateResponse updateDoctorProfile(DoctorProfileBean doctorDetails) {
+	public boolean updateDoctorProfile(DoctorProfileBean doctorDetails) {
 		
 		logger.info("Entering update profile for doctor:{}",doctorDetails.getDoctor_id());
 		
@@ -119,7 +111,7 @@ public class DoctorRepository {
 		logger.info("queryUpdateDoctorQualification:{}",DbQueryConstant.queryUpdateDoctorQualification);
 		logger.info("queryUpdateDoctorSpeciality:{}",DbQueryConstant.queryUpdateDoctorSpeciality);
 		
-		ProfileUpdateResponse profileUpdateResponse= new ProfileUpdateResponse();
+		boolean isProfileUpdated = false;
 		
 		int doctorDetailsUpdate = jdbcTemplate.update(DbQueryConstant.queryUpdateDoctorDetails
 													 ,doctorDetails.getFirst_name()
@@ -154,14 +146,10 @@ public class DoctorRepository {
 		if(doctorDetailsUpdate>0  && doctorContactUpdate>0 
 			&& doctorQualificationUpdate>0 && doctorSpecialityUpdate>0) {
 			
-			profileUpdateResponse.setUsername(doctorDetails.getDoctor_id());
-			profileUpdateResponse.setProfileUpdated("Y");
-		}else {
-			profileUpdateResponse.setUsername(doctorDetails.getDoctor_id());
-			profileUpdateResponse.setProfileUpdated("N");
+			isProfileUpdated = true;	
 		}
 		
-		return profileUpdateResponse;
+		return isProfileUpdated;
 	}
 	
 	public DoctorProfileBean fetchDoctorProfile(String doctorId) {
@@ -221,4 +209,91 @@ public class DoctorRepository {
 		
 		return bookingList;
 	}
+	
+	public boolean cancelBooking(String doctorId,long bookingId) {
+		boolean isBookingDeleted = false;
+		
+		logger.info("Entering cancal Booking for doctorId:{}",doctorId);
+		logger.info("queryCancelBooking:{}",DbQueryConstant.queryCancelBooking);
+		
+		int bookingCancelled = jdbcTemplate.update(DbQueryConstant.queryCancelBooking
+				 								   ,"Y"
+				 								   ,ApplicationConstants.DOCTOR
+				 								   ,bookingId
+				 								   ,doctorId);
+		
+		if(bookingCancelled>0) {
+			isBookingDeleted = true;
+		}
+		
+		return isBookingDeleted;
+	}
+	
+	public List<SlotDetails> fetchAllSlots(String doctorId){
+		
+		logger.info("Entering fetch All Booking for doctorId:{}",doctorId);
+		logger.info("queryFetchAllDoctorBookings:{}",DbQueryConstant.queryFetchAllDoctorSlots);
+		List<SlotDetails> slotDetailsList = new ArrayList<SlotDetails>();
+		
+		try {
+			slotDetailsList = jdbcTemplate.queryForList(DbQueryConstant.queryFetchAllDoctorSlots
+					   								   ,new Object[] {doctorId}
+					                                   ,SlotDetails.class);
+		}catch(DataAccessException de) {
+			logger.error("the query failed for fetchAllBookings, message:{}",de.getMessage());
+		}
+		
+		return slotDetailsList;
+	}
+	
+	public boolean addSlot(NewSlotDetails newSlotDetails) {
+		boolean isSlotAdded = false;
+		
+		logger.info("Entering addSlot for doctorId:{}",newSlotDetails.getDoctor_id());
+		logger.info("queryAddBookingSlot:{}",DbQueryConstant.queryAddBookingSlot);
+		
+		int doctorDetailsInsert = jdbcTemplate.update(DbQueryConstant.queryAddBookingSlot
+													 ,newSlotDetails.getDoctor_id()
+													 ,newSlotDetails.getStart_time()
+													 ,newSlotDetails.getEnd_time()
+													 ,newSlotDetails.getMeridiem_indicator());
+		if(doctorDetailsInsert>0) {
+			isSlotAdded = true;
+		}
+		
+		return isSlotAdded;
+	}
+	
+	public boolean deleteSlot(String doctorId,long slotId) {
+		boolean isSlotDeleted = false;
+		
+		logger.info("Entering addSlot for doctorId:{}",doctorId);
+		logger.info("queryAddBookingSlot:{}",DbQueryConstant.queryDeleteBookingSlot);
+		
+		int doctorDetailsInsert = jdbcTemplate.update(DbQueryConstant.queryDeleteBookingSlot
+													 ,slotId
+													 ,doctorId);
+		
+		if(doctorDetailsInsert>0) {
+			isSlotDeleted = true;
+		}
+		
+		return isSlotDeleted;
+	}
+	
+	public boolean disableAccount(String doctorId) {
+		boolean isAccountDisabled = false;
+		
+		logger.info("Entering disableAccount for doctorId:{}",doctorId);
+		logger.info("queryDisableAccount:{}",DbQueryConstant.queryDisableAccount);
+		
+		int accountDisabled = jdbcTemplate.update(DbQueryConstant.queryDisableAccount,"N",doctorId);
+		
+		if(accountDisabled>0) {
+			isAccountDisabled = true;
+		}
+		
+		return isAccountDisabled;
+	}
+	
 }

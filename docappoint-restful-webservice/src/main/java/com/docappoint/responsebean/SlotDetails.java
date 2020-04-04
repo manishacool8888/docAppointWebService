@@ -1,11 +1,20 @@
-package com.docappoint.requestbean;
+package com.docappoint.responsebean;
 
 public class SlotDetails {
 
+	private String slot_id;
 	private String start_time;
 	private String end_time;
 	private String meridiem_indicator;
 	
+	public String getSlot_id() {
+		return slot_id;
+	}
+
+	public void setSlot_id(String slot_id) {
+		this.slot_id = slot_id;
+	}
+
 	public String getStart_time() {
 		return start_time;
 	}

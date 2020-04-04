@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.docappoint.constants.ApplicationConstants;
 import com.docappoint.repository.CommonRepository;
 import com.docappoint.repository.DoctorRepository;
 import com.docappoint.repository.PatientRepository;
@@ -28,15 +30,16 @@ public class DocAppointPublicServices{
 	private static final Logger logger = LoggerFactory.getLogger(DocAppointPublicServices.class);
 	
 	public  RegistrationResponse registerPatient(RegisterPatientBean patientDetails) {
-		RegistrationResponse registrationResponse=null;
+		RegistrationResponse registrationResponse = new RegistrationResponse();
+		registrationResponse.setUsername(patientDetails.getPatient_id());
 		
 		try {
 			
-			registrationResponse = patientRepo.registerPatient(patientDetails);
-			
-			if(null==registrationResponse) {
-				registrationResponse = new RegistrationResponse();
-				registrationResponse.setUsername(patientDetails.getPatient_id());
+			if(patientRepo.registerPatient(patientDetails)) {
+				registrationResponse.setUser_role(ApplicationConstants.ROLE_PATIENT);
+				registrationResponse.setRegistrationSuccess(true);
+			}else {
+				registrationResponse.setUser_role("");
 				registrationResponse.setRegistrationSuccess(false);
 			}
 			
@@ -48,17 +51,19 @@ public class DocAppointPublicServices{
 		return registrationResponse;
 	}
 	
-	public  RegistrationResponse registerDoctor(RegisterDoctorBean doctorDetails) {
-		RegistrationResponse registrationResponse=null;
+	public RegistrationResponse registerDoctor(RegisterDoctorBean doctorDetails) {
 		
-		try {
+		RegistrationResponse registrationResponse = new RegistrationResponse();
+		try {	
 			
-			registrationResponse = docRepo.registerDoctor(doctorDetails);
+			registrationResponse.setUsername(doctorDetails.getDoctor_id());
 			
-			if(null==registrationResponse) {
-				registrationResponse = new RegistrationResponse();
-				registrationResponse.setUsername(doctorDetails.getDoctor_id());
-				registrationResponse.setRegistrationSuccess(false);
+			if(docRepo.registerDoctor(doctorDetails)) {
+				registrationResponse.setUser_role(ApplicationConstants.ROLE_DOCTOR);
+				registrationResponse.setRegistrationSuccess(true);
+			}else {
+				registrationResponse.setUser_role("");
+				registrationResponse.setRegistrationSuccess(true);
 			}
 			
 		}catch(Exception ex) {

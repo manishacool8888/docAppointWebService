@@ -1,26 +1,17 @@
 package com.docappoint.repository;
 
-import java.util.ArrayList;
-import java.util.Date;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.docappoint.bean.PatientProfileBean;
-import com.docappoint.bean.UserAuthData;
 import com.docappoint.constants.ApplicationConstants;
 import com.docappoint.constants.DbConstants;
 import com.docappoint.constants.DbQueryConstant;
-import com.docappoint.dao.TestDataDao;
 import com.docappoint.requestbean.RegisterPatientBean;
-import com.docappoint.responsebean.ProfileUpdateResponse;
-import com.docappoint.responsebean.RegistrationResponse;
 
 @Repository
 public class PatientRepository {
@@ -43,15 +34,15 @@ public class PatientRepository {
 	}
 	
 	@Transactional
-	public RegistrationResponse registerPatient(RegisterPatientBean patientDetails) {
+	public boolean registerPatient(RegisterPatientBean patientDetails) {
+		
+		boolean isPatientRegistered = false;
 		
 		logger.info("Entering registerPatient for user:{}",patientDetails.getPatient_id());
 		logger.info("queryInsertUsers:{}",DbQueryConstant.queryInsertUsers);
 		logger.info("queryInsertAuthorities:{}",DbQueryConstant.queryInsertAuthorities);
 		logger.info("queryInsetPatientDetails:{}",DbQueryConstant.queryInsetPatientDetails);
 		logger.info("queryInsertPatientContact:{}",DbQueryConstant.queryInsertPatientContact);
-		
-		RegistrationResponse registrationResponse=null;
 		
 		int usersInsertSuccess = jdbcTemplate.update(DbQueryConstant.queryInsertUsers
 				                                   ,patientDetails.getPatient_id()
@@ -83,24 +74,21 @@ public class PatientRepository {
 		if(usersInsertSuccess>0 && authoritiesInsertSuccess>0 
 				&& patientDetailsInsertSuccess>0  && patientContactInsertSuccess>0) {
 			
-			registrationResponse = new RegistrationResponse();
-			registrationResponse.setUsername(patientDetails.getPatient_id());
-			registrationResponse.setUser_role(ApplicationConstants.ROLE_PATIENT);
-			registrationResponse.setRegistrationSuccess(true);
+			isPatientRegistered = true;
 		}
 		
-		return registrationResponse;
+		return isPatientRegistered;
 	}
 	
 	@Transactional
-	public ProfileUpdateResponse updatePatientProfile(PatientProfileBean patientProfile) {
+	public boolean updatePatientProfile(PatientProfileBean patientProfile) {
 		
 		logger.info("Entering update profile for user:{}",patientProfile.getPatient_id());
 		
 		logger.info("queryUpdatePatientDetails:{}",DbQueryConstant.queryUpdatePatientDetails);
 		logger.info("queryUpdatePatientContact:{}",DbQueryConstant.queryUpdatePatientContact);
 		
-		ProfileUpdateResponse profileUpdateResponse= new ProfileUpdateResponse();
+		boolean isPatientProfileupdated = false;
 		
 		int patientProfileUpdateSuccess = jdbcTemplate.update(DbQueryConstant.queryUpdatePatientDetails
 						
@@ -123,15 +111,10 @@ public class PatientRepository {
 															 ,patientProfile.getPatient_id());
 		
 		if(patientProfileUpdateSuccess>0  && patientContactUpdateSuccess>0) {
-			
-			profileUpdateResponse.setUsername(patientProfile.getPatient_id());
-			profileUpdateResponse.setProfileUpdated("Y");
-		}else {
-			profileUpdateResponse.setUsername(patientProfile.getPatient_id());
-			profileUpdateResponse.setProfileUpdated("N");
+			isPatientProfileupdated = true;	
 		}
 		
-		return profileUpdateResponse;
+		return isPatientProfileupdated;
 	}
 	
 	public PatientProfileBean fetchPatientProfile(String patientId) {
@@ -158,8 +141,8 @@ public class PatientRepository {
 			patientProfile.setAlternate_mobile_number(rs.getString(DbConstants.PT_CONT_ALT_MOBILE));
 			patientProfile.setAlternate_email_id(rs.getString(DbConstants.PT_CONT_ALT_EMAIL));
 			
-		return patientProfile;
-	};
+			return patientProfile;
+		};
 		
 		patientProfileBean =  jdbcTemplate.queryForObject(DbQueryConstant.queryFetchPatientProfile
 														 ,new Object[] {patientId,patientId}

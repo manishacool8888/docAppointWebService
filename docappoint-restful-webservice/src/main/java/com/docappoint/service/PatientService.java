@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.docappoint.bean.PatientProfileBean;
 import com.docappoint.repository.PatientRepository;
 import com.docappoint.responsebean.ProfileUpdateResponse;
@@ -18,10 +17,15 @@ public class PatientService {
 	private static final Logger logger = LoggerFactory.getLogger(PatientService.class);
 	
 	public ProfileUpdateResponse updatePatientProfile(PatientProfileBean patientProfile) {
-		ProfileUpdateResponse profileUpdateResponse=null;
+		ProfileUpdateResponse profileUpdateResponse = new ProfileUpdateResponse();
+		profileUpdateResponse.setUsername(patientProfile.getPatient_id());
 		
 		try {
-			profileUpdateResponse = patientRepo.updatePatientProfile(patientProfile);
+			if(patientRepo.updatePatientProfile(patientProfile)) {
+				profileUpdateResponse.setProfileUpdated("Y");
+			}else {
+				profileUpdateResponse.setProfileUpdated("N");
+			}
 		}catch(Exception ex) {
 			logger.error("Exception while updating patient profile {}",ex.getMessage());
 		}
