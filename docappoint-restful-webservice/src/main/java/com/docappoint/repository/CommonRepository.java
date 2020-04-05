@@ -91,8 +91,8 @@ public class CommonRepository {
 		
 		List<SpecialityList> SpecialityList = new ArrayList<SpecialityList>();
 		
-		SpecialityList = jdbcTemplate.queryForList(DbQueryConstant.queryFetchSpeciality
-												   ,SpecialityList.class);
+		SpecialityList = (ArrayList<SpecialityList>) jdbcTemplate.query(DbQueryConstant.queryFetchSpeciality
+				                             ,new BeanPropertyRowMapper<SpecialityList>(SpecialityList.class));
 		
 		return SpecialityList;
 	}

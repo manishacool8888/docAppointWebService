@@ -58,8 +58,8 @@ public class DoctorController {
 	}
 	
 	@GetMapping(path="/slots/{username}")
-	public ResponseEntity<?> getAllSlots(@PathVariable String doctorId){
-		List<SlotDetails> slotDetailList = docService.getAllSlots(doctorId);
+	public ResponseEntity<?> getAllSlots(@PathVariable String username){
+		List<SlotDetails> slotDetailList = docService.getAllSlots(username);
 		
 		return new ResponseEntity<List<SlotDetails>>(slotDetailList,HttpStatus.OK);
 	}

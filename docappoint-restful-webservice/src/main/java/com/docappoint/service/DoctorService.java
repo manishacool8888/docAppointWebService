@@ -29,8 +29,10 @@ public class DoctorService {
 			 if(docRepo.updateDoctorProfile(doctorProfile)) {
 				 
 				 profileUpdateResponse.setProfileUpdated("Y");
+				 logger.info("profile updated successfully for doctorId:"+doctorProfile.getDoctor_id());
 			 }else {
 				 profileUpdateResponse.setProfileUpdated("N");
+				 logger.info("profile update failed for doctorId:"+doctorProfile.getDoctor_id());
 			 }
 			 
 		}catch(Exception ex) {
@@ -44,7 +46,9 @@ public class DoctorService {
 		DoctorProfileBean doctorProfile = null;
 		
 		try {
+			
 			doctorProfile = docRepo.fetchDoctorProfile(doctorId);
+			
 		}catch(Exception ex) {
 			logger.error("Exception while fetching profile for doctorId:{}, message:{}",doctorId,ex.getMessage());
 			ex.printStackTrace();
@@ -70,8 +74,10 @@ public class DoctorService {
 		try {
 			if(docRepo.cancelBooking(doctorId, bookingId)) {
 				response.setMessage(ApplicationConstants.SUCCESS);
+				logger.info("booking cancelled for bookingId:{}, doctorId:{}",bookingId,doctorId);
 			}else {
 				response.setMessage(ApplicationConstants.FAIL);
+				logger.info("booking cancel failed for bookingId:{}, doctorId:{}",bookingId,doctorId);
 			}
 		}catch(Exception ex){
 			logger.error("Exception while deleting booking for doctorId:{}, BookingId:{}, message:{}",doctorId,bookingId,ex.getMessage());
@@ -96,8 +102,10 @@ public class DoctorService {
 		try {
 			if(docRepo.addSlot(newSlotDetails)) {
 				response.setMessage(ApplicationConstants.SUCCESS);
+				logger.info("slot added successfully for doctorId:{}",newSlotDetails.getDoctor_id());
 			}else {
 				response.setMessage(ApplicationConstants.FAIL);
+				logger.info("slot add failed for doctorId:{}",newSlotDetails.getDoctor_id());
 			}
 		}catch(Exception ex) {
 			logger.error("Exception while adding new slot for doctorId:{}, message:{}",newSlotDetails.getDoctor_id(),ex.getMessage());
@@ -111,8 +119,10 @@ public class DoctorService {
 		try {
 			if(docRepo.deleteSlot(doctorId, slotId)) {
 				response.setMessage(ApplicationConstants.SUCCESS);
+				logger.info("slot deleted for slotId:{}, doctorId:{}",slotId,doctorId);
 			}else {
 				response.setMessage(ApplicationConstants.FAIL);
+				logger.info("slot delete failed for slotId:{}, doctorId:{}",slotId,doctorId);
 			}
 		}catch(Exception ex) {
 			logger.error("Exception while deleting slot for doctorId:{},slotId:{}, message:{}",doctorId,slotId,ex.getMessage());
@@ -126,8 +136,10 @@ public class DoctorService {
 		try {
 			if(docRepo.disableAccount(doctorId)) {
 				response.setMessage(ApplicationConstants.SUCCESS);
+				logger.info("account disabled for doctorId:"+doctorId);
 			}else {
 				response.setMessage(ApplicationConstants.FAIL);
+				logger.info("account disable failed for doctorId:"+doctorId);
 			}
 		}catch(Exception ex) {
 			logger.error("Exception while desabling account for doctorId:{},message:{}",doctorId,ex.getMessage());

@@ -22,7 +22,7 @@ public class PatientRepository {
 	private static final Logger logger = LoggerFactory.getLogger(PatientRepository.class);
 	
 	public String fetchPatientFirstName(String patient_id) {
-		logger.info("fetching Patient First name");
+		logger.info("fetching Patient First name for patient:"+patient_id);
 		logger.info("queryFetchStates:"+DbQueryConstant.queryFetchPatientFirstName);
 		
 		String patient_fist_name="";

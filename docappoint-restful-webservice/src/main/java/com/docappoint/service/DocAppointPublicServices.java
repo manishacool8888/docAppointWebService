@@ -61,9 +61,11 @@ public class DocAppointPublicServices{
 			if(docRepo.registerDoctor(doctorDetails)) {
 				registrationResponse.setUser_role(ApplicationConstants.ROLE_DOCTOR);
 				registrationResponse.setRegistrationSuccess(true);
+				logger.info("Registration success for doctorId:{}",doctorDetails.getDoctor_id());
 			}else {
 				registrationResponse.setUser_role("");
 				registrationResponse.setRegistrationSuccess(true);
+				logger.info("Registration failed for doctorId:{}",doctorDetails.getDoctor_id());
 			}
 			
 		}catch(Exception ex) {
@@ -112,6 +114,7 @@ public class DocAppointPublicServices{
 		
 		try {
 			specialityList = commonRepo.fetchSpeciality();
+			logger.info("specialityList from DB:"+specialityList.toString());
 		}catch(Exception ex) {
 			logger.error("Exception while fetching specialityList, message:"+ex.getMessage());
 		}

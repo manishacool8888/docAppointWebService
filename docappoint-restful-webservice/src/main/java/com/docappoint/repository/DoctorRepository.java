@@ -18,6 +18,7 @@ import com.docappoint.requestbean.NewSlotDetails;
 import com.docappoint.requestbean.RegisterDoctorBean;
 import com.docappoint.responsebean.DocAppointBookings;
 import com.docappoint.responsebean.SlotDetails;
+import com.docappoint.responsebean.SpecialityList;
 
 @Repository
 public class DoctorRepository {
@@ -28,15 +29,15 @@ public class DoctorRepository {
 	private static final Logger logger = LoggerFactory.getLogger(DoctorRepository.class);
 	
 	public String fetchDoctorFirstName(String doctor_id) {
-		logger.info("fetching Patient First name");
+		logger.info("fetching Doctor First name for doctorId:"+doctor_id);
 		logger.info("queryFetchStates:"+DbQueryConstant.queryFetchDoctorFirstName);
 		
-		String patient_fist_name="";
-		patient_fist_name = (String) jdbcTemplate.queryForObject(DbQueryConstant.queryFetchPatientFirstName
+		String doctor_fist_name="";
+		doctor_fist_name = (String) jdbcTemplate.queryForObject(DbQueryConstant.queryFetchDoctorFirstName
 																,new Object[] {doctor_id}
 																,String.class);
 		
-		return patient_fist_name;
+		return doctor_fist_name;
 	}
 	
 	@Transactional
@@ -156,7 +157,7 @@ public class DoctorRepository {
 		DoctorProfileBean doctorProfileBean = null;
 		
 		logger.info("Entering get Doctor Profile for user:{}",doctorId);
-		logger.info("queryFetchPatientProfile:{}",DbQueryConstant.queryFetchDoctorProfile);
+		logger.info("queryFetchDoctorProfile:{}",DbQueryConstant.queryFetchDoctorProfile);
 		
 		/*
 		 * RowMapper<PatientProfileBean> rowMapper = (rs, rowNum) -> {
@@ -199,9 +200,10 @@ public class DoctorRepository {
 		List<DocAppointBookings> bookingList = new ArrayList<DocAppointBookings>();
 		
 		try {
-			bookingList = jdbcTemplate.queryForList(DbQueryConstant.queryFetchAllDoctorBookings
-					   ,new Object[] {doctorId}
-					   ,DocAppointBookings.class);
+			bookingList = (ArrayList<DocAppointBookings>) jdbcTemplate.query
+					(DbQueryConstant.queryFetchAllDoctorBookings
+					,new Object[] {doctorId}
+                    ,new BeanPropertyRowMapper<DocAppointBookings>(DocAppointBookings.class));
 			
 		}catch(DataAccessException de) {
 			logger.error("the query failed for fetchAllBookings, message:{}",de.getMessage());
@@ -236,9 +238,12 @@ public class DoctorRepository {
 		List<SlotDetails> slotDetailsList = new ArrayList<SlotDetails>();
 		
 		try {
-			slotDetailsList = jdbcTemplate.queryForList(DbQueryConstant.queryFetchAllDoctorSlots
-					   								   ,new Object[] {doctorId}
-					                                   ,SlotDetails.class);
+			
+			slotDetailsList = (ArrayList<SlotDetails>) jdbcTemplate.query
+					(DbQueryConstant.queryFetchAllDoctorSlots
+					,new Object[] {doctorId}
+                    ,new BeanPropertyRowMapper<SlotDetails>(SlotDetails.class));
+			
 		}catch(DataAccessException de) {
 			logger.error("the query failed for fetchAllBookings, message:{}",de.getMessage());
 		}
