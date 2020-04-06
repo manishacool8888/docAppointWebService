@@ -1,8 +1,13 @@
 package com.docappoint.repository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -12,6 +17,8 @@ import com.docappoint.constants.ApplicationConstants;
 import com.docappoint.constants.DbConstants;
 import com.docappoint.constants.DbQueryConstant;
 import com.docappoint.requestbean.RegisterPatientBean;
+import com.docappoint.responsebean.DocAppointBookings;
+import com.docappoint.responsebean.DoctorSearchDetails;
 
 @Repository
 public class PatientRepository {
@@ -148,16 +155,62 @@ public class PatientRepository {
 														 ,new Object[] {patientId,patientId}
 														 ,rowMapper);
 		
-//		RowMapper<UserAuthData> rowMapper = (rs, rowNum) -> {
-//			UserAuthData authResponse = new UserAuthData(rs.getString(DbConstants.USER_USERNAME)
-//														,rs.getString(DbConstants.USER_ENABLED)
-//														,rs.getString(DbConstants.AUTH_AUTHORITY));
-//			return authResponse;
-//		};
-//		testDataList = (ArrayList<TestDataDao>) jdbcTemplate.query(query, new BeanPropertyRowMapper(TestDataDao.class));
-//		
-		
 		return patientProfileBean;
+	}
+	
+	public List<DoctorSearchDetails> fetchDoctorDetailsByState(String state){
+	
+		logger.info("Entering fetch All Doctors by state:{}",state);
+		logger.info("queryFetchDoctorDtlsByState:{}",DbQueryConstant.queryFetchDoctorDtlsByState);
+		List<DoctorSearchDetails> doctorDetailsList = new ArrayList<DoctorSearchDetails>();
+		
+		try {
+			doctorDetailsList = (ArrayList<DoctorSearchDetails>) jdbcTemplate.query
+					(DbQueryConstant.queryFetchDoctorDtlsByState
+					,new Object[] {state}
+                    ,new BeanPropertyRowMapper<DoctorSearchDetails>(DoctorSearchDetails.class));
+			
+		}catch(DataAccessException de) {
+			logger.error("the query failed for fetchAllBookings, message:{}",de.getMessage());
+		}
+		
+		return doctorDetailsList;
+	}
+	
+	public List<DoctorSearchDetails> fetchDoctorsByStateCity(String state,String city){
+		logger.info("Entering fetch All Doctors by state and city. state:{},city:{}",state,city);
+		logger.info("queryFetchDoctorDtlsByStateCity:{}",DbQueryConstant.queryFetchDoctorDtlsByStateCity);
+		List<DoctorSearchDetails> doctorDetailsList = new ArrayList<DoctorSearchDetails>();
+		
+		try {
+			doctorDetailsList = (ArrayList<DoctorSearchDetails>) jdbcTemplate.query
+					(DbQueryConstant.queryFetchDoctorDtlsByStateCity
+					,new Object[] {state,city}
+                    ,new BeanPropertyRowMapper<DoctorSearchDetails>(DoctorSearchDetails.class));
+			
+		}catch(DataAccessException de) {
+			logger.error("the query failed for fetchAllBookings, message:{}",de.getMessage());
+		}
+		
+		return doctorDetailsList;
+	}
+
+	public List<DoctorSearchDetails> fetchDoctorsByStateCityLocality(String state,String city,String locality){
+		logger.info("Entering fetch All Doctors by state,city and locality. state:{},city:{},locality:{}",state,city,locality);
+		logger.info("queryFetchDoctorDtlsByStateCityLoc:{}",DbQueryConstant.queryFetchDoctorDtlsByStateCityLoc);
+		List<DoctorSearchDetails> doctorDetailsList = new ArrayList<DoctorSearchDetails>();
+		
+		try {
+			doctorDetailsList = (ArrayList<DoctorSearchDetails>) jdbcTemplate.query
+					(DbQueryConstant.queryFetchDoctorDtlsByStateCityLoc
+					,new Object[] {state,city,locality}
+                    ,new BeanPropertyRowMapper<DoctorSearchDetails>(DoctorSearchDetails.class));
+			
+		}catch(DataAccessException de) {
+			logger.error("the query failed for fetchAllBookings, message:{}",de.getMessage());
+		}
+		
+		return doctorDetailsList;
 	}
 	
 	

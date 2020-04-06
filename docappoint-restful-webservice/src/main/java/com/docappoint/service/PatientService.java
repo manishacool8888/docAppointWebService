@@ -4,8 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.PathVariable;
+
 import com.docappoint.bean.PatientProfileBean;
 import com.docappoint.repository.PatientRepository;
+import com.docappoint.responsebean.DoctorSearchDetails;
 import com.docappoint.responsebean.ProfileUpdateResponse;
 
 @Service
@@ -44,6 +48,20 @@ public class PatientService {
 		}
 		
 		return patientProfile;
+	}
+	
+	public DoctorSearchDetails searchDoctors(String state,String city,String locality){
+		DoctorSearchDetails doctorSearchDetails = null;
+		
+		if(StringUtils.isEmpty(city) && StringUtils.isEmpty(locality)) {
+			patientRepo.fetchDoctorDetailsByState(state);
+		}else if(StringUtils.isEmpty(locality)) {
+			patientRepo.fetchDoctorsByStateCity(state, city);
+		}else {
+			patientRepo.fetchDoctorsByStateCityLocality(state, city, locality);
+		}
+		
+		return doctorSearchDetails;
 	}
 	
 }

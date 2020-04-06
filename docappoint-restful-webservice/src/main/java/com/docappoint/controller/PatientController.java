@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.docappoint.bean.PatientProfileBean;
+import com.docappoint.responsebean.DoctorSearchDetails;
 import com.docappoint.responsebean.ProfileUpdateResponse;
 import com.docappoint.service.PatientService;
 
@@ -36,4 +37,15 @@ public class PatientController {
 		ProfileUpdateResponse profileUpdateResponse = patientService.updatePatientProfile(patientProfile);
 		return new ResponseEntity<ProfileUpdateResponse>(profileUpdateResponse,HttpStatus.OK);
 	}
+	
+	//
+	@GetMapping(path="/Doctors/{state}/{city}/{locality}")
+	public ResponseEntity<?> searchDoctors(@PathVariable String state
+			                              ,@PathVariable String city
+			                              ,@PathVariable String locality){
+		
+		DoctorSearchDetails doctorSearchDetails = patientService.searchDoctors(state, city, locality);
+		return new ResponseEntity<DoctorSearchDetails>(doctorSearchDetails,HttpStatus.OK);
+	}
+	
 }

@@ -158,32 +158,6 @@ public class DoctorRepository {
 		
 		logger.info("Entering get Doctor Profile for user:{}",doctorId);
 		logger.info("queryFetchDoctorProfile:{}",DbQueryConstant.queryFetchDoctorProfile);
-		
-		/*
-		 * RowMapper<PatientProfileBean> rowMapper = (rs, rowNum) -> {
-		 * 
-		 * PatientProfileBean patientProfile = new PatientProfileBean();
-		 * patientProfile.setPatient_id(rs.getString(DbConstants.PT_DTLS_PATIENT_ID));
-		 * patientProfile.setFirst_name(rs.getString(DbConstants.PT_DTLS_FIRST_NAME));
-		 * patientProfile.setLast_name(rs.getString(DbConstants.PT_DTLS_LAST_NAME));
-		 * patientProfile.setDate_of_birth(rs.getDate(DbConstants.PT_DTLS_DOB));
-		 * patientProfile.setGender(rs.getString(DbConstants.PT_DTLS_GENDER));
-		 * patientProfile.setAddress_line_one(rs.getString(DbConstants.
-		 * PT_CONT_ADD_LINE_ONE));
-		 * patientProfile.setAddress_line_two(rs.getString(DbConstants.
-		 * PT_CONT_ADD_LINE_TWO));
-		 * patientProfile.setState(rs.getString(DbConstants.PT_CONT_STATE));
-		 * patientProfile.setCity(rs.getString(DbConstants.PT_CONT_CITY));
-		 * patientProfile.setPincode(rs.getString(DbConstants.PT_CONT_PINCODE));
-		 * patientProfile.setPrimary_mobile_number(rs.getString(DbConstants.
-		 * PT_CONT_PRIMARY_MOBILE));
-		 * patientProfile.setAlternate_mobile_number(rs.getString(DbConstants.
-		 * PT_CONT_ALT_MOBILE));
-		 * patientProfile.setAlternate_email_id(rs.getString(DbConstants.
-		 * PT_CONT_ALT_EMAIL));
-		 * 
-		 * return patientProfile; };
-		 */
 
 		doctorProfileBean =  (DoctorProfileBean) jdbcTemplate.queryForObject(DbQueryConstant.queryFetchDoctorProfile
 														 ,new Object[] {doctorId,doctorId,doctorId,doctorId}
