@@ -1,16 +1,19 @@
 package com.docappoint.service;
 
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-
 import com.docappoint.bean.PatientProfileBean;
+import com.docappoint.constants.ApplicationConstants;
 import com.docappoint.repository.PatientRepository;
+import com.docappoint.responsebean.DocAppointBookings;
 import com.docappoint.responsebean.DoctorSearchDetails;
 import com.docappoint.responsebean.ProfileUpdateResponse;
+import com.docappoint.responsebean.ServiceResponse;
 
 @Service
 public class PatientService {
@@ -50,18 +53,55 @@ public class PatientService {
 		return patientProfile;
 	}
 	
-	public DoctorSearchDetails searchDoctors(String state,String city,String locality){
-		DoctorSearchDetails doctorSearchDetails = null;
+	public List<DoctorSearchDetails> searchDoctors(String state,String city,String locality){
+		List<DoctorSearchDetails> doctorSearchDetails = null;
 		
-		if(StringUtils.isEmpty(city) && StringUtils.isEmpty(locality)) {
-			patientRepo.fetchDoctorDetailsByState(state);
-		}else if(StringUtils.isEmpty(locality)) {
-			patientRepo.fetchDoctorsByStateCity(state, city);
-		}else {
-			patientRepo.fetchDoctorsByStateCityLocality(state, city, locality);
+		if(StringUtils.isNotBlank(state) && StringUtils.isNotBlank(city) && StringUtils.isNotBlank(locality)) {
+			logger.info("fetchDoctorsByStateCityLocality is called");
+			doctorSearchDetails = patientRepo.fetchDoctorsByStateCityLocality(state, city, locality);
+			
+			logger.info("DoctorSearchDetails from repo:"+doctorSearchDetails);
+		}else if(StringUtils.isNotBlank(state) && StringUtils.isNotBlank(city) && StringUtils.isBlank(locality) ) {
+			logger.info("fetchDoctorsByStateCity called");
+			doctorSearchDetails = patientRepo.fetchDoctorsByStateCity(state, city);
+			
+			logger.info("DoctorSearchDetails from repo:"+doctorSearchDetails);
+		}else if(StringUtils.isNotBlank(state) && StringUtils.isBlank(city) && StringUtils.isBlank(locality)) {
+			logger.info("fetchDoctorDetailsByState is called");
+			doctorSearchDetails = patientRepo.fetchDoctorDetailsByState(state);
+			
+			logger.info("DoctorSearchDetails from repo:"+doctorSearchDetails);
 		}
 		
 		return doctorSearchDetails;
+	}
+	
+	public List<DocAppointBookings> getAllBookings(String patientId){
+		List<DocAppointBookings> docBookingList = null;
+		
+		try {
+			docBookingList = patientRepo.fetchAllBookings(patientId);
+		}catch(Exception ex) {
+			logger.error("Exception while fetching bookings for PatientId:{} ,message{} :",patientId,ex.getMessage());
+		}
+		return docBookingList;
+	}
+	
+	public ServiceResponse cancelBooking(String patientId,long bookingId) {
+		ServiceResponse response = new ServiceResponse();
+		
+		try {
+			if(patientRepo.cancelBooking(patientId, bookingId)) {
+				response.setMessage(ApplicationConstants.SUCCESS);
+				logger.info("booking cancelled for bookingId:{}, PatientId:{}",bookingId,patientId);
+			}else {
+				response.setMessage(ApplicationConstants.FAIL);
+				logger.info("booking cancel failed for bookingId:{}, PatientId:{}",bookingId,patientId);
+			}
+		}catch(Exception ex){
+			logger.error("Exception while deleting booking for PatientId:{}, BookingId:{}, message:{}",patientId,bookingId,ex.getMessage());
+		}
+		return response;
 	}
 	
 }

@@ -213,6 +213,42 @@ public class PatientRepository {
 		return doctorDetailsList;
 	}
 	
+	public List<DocAppointBookings> fetchAllBookings(String patientId){
+		logger.info("Entering fetch All Booking for patientId:{}",patientId);
+		logger.info("queryFetchAllPatientBookings:{}",DbQueryConstant.queryFetchAllPatientBookings);
+		List<DocAppointBookings> bookingList = new ArrayList<DocAppointBookings>();
+		
+		try {
+			bookingList = (ArrayList<DocAppointBookings>) jdbcTemplate.query
+					(DbQueryConstant.queryFetchAllPatientBookings
+					,new Object[] {patientId}
+                    ,new BeanPropertyRowMapper<DocAppointBookings>(DocAppointBookings.class));
+			
+		}catch(DataAccessException de) {
+			logger.error("the query failed for fetchAllBookings, message:{}",de.getMessage());
+		}
+		
+		return bookingList;
+	}
+	
+	public boolean cancelBooking(String patientId,long bookingId) {
+		boolean isBookingCancelled = false;
+		
+		logger.info("Entering cancal Booking for patientId:{}",patientId);
+		logger.info("queryCancelPatientBooking:{}",DbQueryConstant.queryCancelPatientBooking);
+		
+		int bookingCancelled = jdbcTemplate.update(DbQueryConstant.queryCancelPatientBooking
+				 								   ,"Y"
+				 								   ,ApplicationConstants.PATIENT
+				 								   ,bookingId
+				 								   ,patientId);
+		
+		if(bookingCancelled>0) {
+			isBookingCancelled = true;
+		}
+		
+		return isBookingCancelled;
+	}
 	
 	/*public AuthResponseBean getLoginData(String username) {
 		logger.info("Entering getLoginData with username:{}",username);

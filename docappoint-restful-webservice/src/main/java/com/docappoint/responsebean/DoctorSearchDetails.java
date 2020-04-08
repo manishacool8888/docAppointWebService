@@ -62,6 +62,20 @@ public class DoctorSearchDetails {
 		this.locality = locality;
 	}
     
-    
+    @Override
+    public String toString() {
+    	StringBuilder sb = new StringBuilder();
+    	sb.append("first_name:"+getFirst_name()+",");
+    	sb.append("gender"+getGender()+",");
+    	sb.append("practicing_from"+getPracticing_from()+",");
+    	sb.append("consultation_fee"+getConsultation_fee()+",");
+    	sb.append("speciality_name"+getSpeciality_name()+",");
+    	sb.append("state"+getState()+",");
+    	sb.append("city"+getCity()+",");
+    	sb.append("locality"+getLocality());
+    	sb.append("|");
+    	
+    	return sb.toString();
+    }
     
 }
