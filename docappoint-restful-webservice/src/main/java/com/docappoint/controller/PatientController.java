@@ -43,13 +43,13 @@ public class PatientController {
 		return new ResponseEntity<ProfileUpdateResponse>(profileUpdateResponse,HttpStatus.OK);
 	}
 	
-	//
-	@GetMapping(path="/Doctors/state/{state}/city/{city}/locality/{locality}/search")
+	@GetMapping(path="/Doctors/state/{state}/city/{city}/locality/{locality}/speciality/{speciality}/search")
 	public ResponseEntity<?> searchDoctors(@PathVariable String state
 			                              ,@PathVariable String city
-			                              ,@PathVariable String locality){
+			                              ,@PathVariable String locality
+			                              ,@PathVariable String speciality){
 		
-		List<DoctorSearchDetails> doctorSearchDetails = patientService.searchDoctors(state, city, locality);
+		List<DoctorSearchDetails> doctorSearchDetails = patientService.searchDoctors(state, city, locality,speciality);
 		return new ResponseEntity<List<DoctorSearchDetails>>(doctorSearchDetails,HttpStatus.OK);
 	}
 	

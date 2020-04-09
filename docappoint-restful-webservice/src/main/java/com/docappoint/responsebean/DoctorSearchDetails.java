@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class DoctorSearchDetails {
 
+	private String doctor_id;
 	private String first_name;
     private String gender;
     private  Date practicing_from;
@@ -13,6 +14,12 @@ public class DoctorSearchDetails {
     private String city;
     private String locality;
     
+	public String getDoctor_id() {
+		return doctor_id;
+	}
+	public void setDoctor_id(String doctor_id) {
+		this.doctor_id = doctor_id;
+	}
 	public String getFirst_name() {
 		return first_name;
 	}
@@ -65,6 +72,7 @@ public class DoctorSearchDetails {
     @Override
     public String toString() {
     	StringBuilder sb = new StringBuilder();
+    	sb.append("doctor_id:"+getDoctor_id()+",");
     	sb.append("first_name:"+getFirst_name()+",");
     	sb.append("gender"+getGender()+",");
     	sb.append("practicing_from"+getPracticing_from()+",");

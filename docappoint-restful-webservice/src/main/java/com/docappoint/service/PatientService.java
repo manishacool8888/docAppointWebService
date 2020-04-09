@@ -53,20 +53,52 @@ public class PatientService {
 		return patientProfile;
 	}
 	
-	public List<DoctorSearchDetails> searchDoctors(String state,String city,String locality){
+	public List<DoctorSearchDetails> searchDoctors(String state,String city,String locality,String speciality){
 		List<DoctorSearchDetails> doctorSearchDetails = null;
 		
-		if(StringUtils.isNotBlank(state) && StringUtils.isNotBlank(city) && StringUtils.isNotBlank(locality)) {
+		if(StringUtils.isNotBlank(state) && StringUtils.isNotBlank(city) 
+				&& StringUtils.isNotBlank(locality) && StringUtils.isNotBlank(speciality)) {
+			
+			logger.info("fetchDoctorsByStateCityLocSpec is called");
+			doctorSearchDetails = patientRepo.fetchDoctorsByStateCityLocSpec(state, city, locality, speciality);
+			
+			logger.info("DoctorSearchDetails from repo:"+doctorSearchDetails);
+			
+		}else if(StringUtils.isNotBlank(state) && StringUtils.isNotBlank(city) 
+				&& StringUtils.isNotBlank(locality) && StringUtils.isBlank(speciality)) {
+			
 			logger.info("fetchDoctorsByStateCityLocality is called");
 			doctorSearchDetails = patientRepo.fetchDoctorsByStateCityLocality(state, city, locality);
 			
 			logger.info("DoctorSearchDetails from repo:"+doctorSearchDetails);
-		}else if(StringUtils.isNotBlank(state) && StringUtils.isNotBlank(city) && StringUtils.isBlank(locality) ) {
-			logger.info("fetchDoctorsByStateCity called");
+			
+		}else if(StringUtils.isNotBlank(state) && StringUtils.isNotBlank(city) 
+				    && StringUtils.isBlank(locality) && StringUtils.isNotBlank(speciality)) {
+			
+			logger.info("fetchDoctorsByStateCitySpec is called");
+			doctorSearchDetails = patientRepo.fetchDoctorsByStateCitySpec(state, city, speciality);
+			
+			logger.info("DoctorSearchDetails from repo:"+doctorSearchDetails);
+			
+		}else if(StringUtils.isNotBlank(state) && StringUtils.isNotBlank(city) 
+			    && StringUtils.isBlank(locality) && StringUtils.isBlank(speciality)) {
+			
+			logger.info("fetchDoctorsByStateCity is called");
 			doctorSearchDetails = patientRepo.fetchDoctorsByStateCity(state, city);
 			
 			logger.info("DoctorSearchDetails from repo:"+doctorSearchDetails);
-		}else if(StringUtils.isNotBlank(state) && StringUtils.isBlank(city) && StringUtils.isBlank(locality)) {
+			
+		}else if(StringUtils.isNotBlank(state) && StringUtils.isBlank(city) 
+				    && StringUtils.isBlank(locality) && StringUtils.isNotBlank(speciality)) {
+			
+			logger.info("fetchDoctorDetailsByStateSpec is called");
+			doctorSearchDetails = patientRepo.fetchDoctorDetailsByStateSpec(state, speciality);
+			
+			logger.info("DoctorSearchDetails from repo:"+doctorSearchDetails);
+			
+		}else if(StringUtils.isNotBlank(state) && StringUtils.isBlank(city) 
+			    && StringUtils.isBlank(locality) && StringUtils.isBlank(speciality)) {
+			
 			logger.info("fetchDoctorDetailsByState is called");
 			doctorSearchDetails = patientRepo.fetchDoctorDetailsByState(state);
 			
@@ -99,7 +131,7 @@ public class PatientService {
 				logger.info("booking cancel failed for bookingId:{}, PatientId:{}",bookingId,patientId);
 			}
 		}catch(Exception ex){
-			logger.error("Exception while deleting booking for PatientId:{}, BookingId:{}, message:{}",patientId,bookingId,ex.getMessage());
+			logger.error("Exception while cancelling booking for PatientId:{}, BookingId:{}, message:{}",patientId,bookingId,ex.getMessage());
 		}
 		return response;
 	}
