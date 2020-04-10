@@ -34,7 +34,7 @@ public class DbQueryConstant {
 	public static final String queryFetchDoctorDtlsByStateCitySpec = "select dd.doctor_id, dd.first_name, dd.gender, dd.practicing_from, dd.consultation_fee, ds.speciality_name, dc.state, dc.city, dc.locality from doctor_details dd, doctor_speciality ds ,doctor_contact dc where dc.state=? and dc.city=? and ds.speciality_name=? and dd.doctor_id=dc.doctor_id and dd.doctor_id=ds.doctor_id";
 	
 	public static final String queryFetchDoctorDtlsByState="select dd.doctor_id, dd.first_name, dd.gender, dd.practicing_from, dd.consultation_fee, ds.speciality_name, dc.state, dc.city, dc.locality from doctor_details dd, doctor_speciality ds ,doctor_contact dc where dc.state=? and dd.doctor_id=dc.doctor_id and dd.doctor_id=ds.doctor_id";
-	public static final String queryFetchDoctorDtlsByStateSpec="select dd.doctor_id, dd.first_name, dd.gender, dd.practicing_from, dd.consultation_fee, ds.speciality_name, dc.state, dc.city, dc.locality from doctor_details dd, doctor_speciality ds ,doctor_contact dc where dc.state=? and ds.speciality_name=? dd.doctor_id=dc.doctor_id and dd.doctor_id=ds.doctor_id";
+	public static final String queryFetchDoctorDtlsByStateSpec="select dd.doctor_id, dd.first_name, dd.gender, dd.practicing_from, dd.consultation_fee, ds.speciality_name, dc.state, dc.city, dc.locality from doctor_details dd, doctor_speciality ds ,doctor_contact dc where dc.state=? and ds.speciality_name=? and dd.doctor_id=dc.doctor_id and dd.doctor_id=ds.doctor_id";
 	
 	public static final String queryFetchAllPatientBookings ="select bd.booking_id, dd.first_name, ds.speciality_name, bd.booking_date, bs.start_time, bs.end_time, bs.meridiem_indicator, bd.symptom_desc, bd.cancelled, bd.cancelled_by  from booking_details bd, doctor_details dd, doctor_speciality ds, booking_slots bs where bd.patient_id=? and bd.doctor_id=dd.doctor_id and bd.doctor_id=ds.doctor_id and bd.slot_id=bs.slot_id";
 	public static final String queryCancelPatientBooking="update booking_details set cancelled=? cancelled_by=? where booking_id=? and patient_id=?";
@@ -57,7 +57,6 @@ public class DbQueryConstant {
 	public static final String queryUpdateDoctorSpeciality="update doctor_speciality set speciality_name=? where doctor_id=?";
 	
 	public static final String queryCancelBooking="update booking_details set cancelled=? cancelled_by=? where booking_id=? and doctor_id=?";
-	
 	
 	public static final String queryFetchAllDoctorSlots="select slot_id, start_time, end_time, meridiem_indicator from booking_slots where doctor_id=?";
 	public static final String queryAddBookingSlot="insert into booking_slots (doctor_id,start_time,end_time, meridiem_indicator) values (?,?,?,?)";

@@ -1,12 +1,13 @@
 package com.docappoint.responsebean;
 
-public class DocBookingSlots {
+public class SlotAvailability {
 
-	private int    slot_id;
-	private String start_time;
-	private String end_time;
-	private String meridiem_indicator;
-	
+	private int slot_id;
+    private String start_time;
+    private String end_time;
+    private String meridiem_indicator;
+    private String isAvailable;
+    
 	public int getSlot_id() {
 		return slot_id;
 	}
@@ -39,16 +40,12 @@ public class DocBookingSlots {
 		this.meridiem_indicator = meridiem_indicator;
 	}
 	
-    @Override
-    public String toString() {
-    	
-    	StringBuilder sb = new StringBuilder();
-    	sb.append("slot_id:"+getSlot_id()+",");
-    	sb.append("start_time:"+getStart_time()+",");
-    	sb.append("end_time"+getEnd_time()+",");
-    	sb.append("meridiem_indicator"+getMeridiem_indicator());
-    	sb.append("|");
-   	
-    	return sb.toString();
-    }
+	public String getIsAvailable() {
+		return isAvailable;
+	}
+	
+	public void setIsAvailable(String isAvailable) {
+		this.isAvailable = isAvailable;
+	}
+    
 }

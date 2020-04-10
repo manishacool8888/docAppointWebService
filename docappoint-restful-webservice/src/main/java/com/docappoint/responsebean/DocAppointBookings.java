@@ -76,4 +76,20 @@ public class DocAppointBookings {
 		this.cancelled_by = cancelled_by;
 	}
     
+    @Override
+    public String toString() {
+    	
+    	StringBuilder sb = new StringBuilder();
+    	sb.append("booking_id:"+getBooking_id()+",");
+    	sb.append("speciality_name:"+getSpeciality_name()+",");
+    	sb.append("booking_date"+getBooking_date()+",");
+    	sb.append("start_time"+getStart_time()+",");
+    	sb.append("end_time"+getEnd_time()+",");
+    	sb.append("meridiem_indicator"+getMeridiem_indicator()+",");
+    	sb.append("symptom_desc"+getSymptom_desc()+",");
+    	sb.append("cancelled"+getCancelled()+",");
+    	sb.append("cancelled_by"+getCancelled_by()+",");
+    	
+    	return sb.toString();
+    }
 }

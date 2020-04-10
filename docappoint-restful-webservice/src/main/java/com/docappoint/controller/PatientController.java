@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.docappoint.bean.PatientProfileBean;
+import com.docappoint.requestbean.BookingDetails;
 import com.docappoint.responsebean.DocAppointBookings;
 import com.docappoint.responsebean.DoctorSearchDetails;
 import com.docappoint.responsebean.ProfileUpdateResponse;
@@ -52,6 +53,13 @@ public class PatientController {
 		List<DoctorSearchDetails> doctorSearchDetails = patientService.searchDoctors(state, city, locality,speciality);
 		return new ResponseEntity<List<DoctorSearchDetails>>(doctorSearchDetails,HttpStatus.OK);
 	}
+	
+//	@PostMapping(path="/bookAppointment", produces="application/json")
+//	public ResponseEntity<?> bookAppointment(@RequestBody BookingDetails bookingDetails) {
+//		
+//		ServiceResponse serviceResponse = patientService.updatePatientProfile(patientProfile);
+//		return new ResponseEntity<ServiceResponse>(serviceResponse,HttpStatus.OK);
+//	}
 	
 	@GetMapping(path="/bookings/{username}")
 	public ResponseEntity<?> getAllBookings(@PathVariable String username){

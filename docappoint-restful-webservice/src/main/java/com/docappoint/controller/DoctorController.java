@@ -1,5 +1,6 @@
 package com.docappoint.controller;
 
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import com.docappoint.requestbean.NewSlotDetails;
 import com.docappoint.responsebean.DocAppointBookings;
 import com.docappoint.responsebean.ProfileUpdateResponse;
 import com.docappoint.responsebean.ServiceResponse;
+import com.docappoint.responsebean.SlotAvailability;
 import com.docappoint.responsebean.SlotDetails;
 import com.docappoint.service.DoctorService;
 
@@ -63,6 +65,14 @@ public class DoctorController {
 		
 		return new ResponseEntity<List<SlotDetails>>(slotDetailList,HttpStatus.OK);
 	}
+	
+//	@GetMapping(path="/slotsAvl/{username}/date/{date}")
+//	public ResponseEntity<?> getSlotAvailability(@PathVariable String username
+//			                                    ,@PathVariable Date date){
+//		
+//		List<SlotAvailability> avlSlotList = docService.getDoctorProfile(username);
+//		return new ResponseEntity<List<SlotAvailability>>(avlSlotList,HttpStatus.OK);
+//	}
 	
 	@PostMapping(path="/addSlot", produces="application/json")
 	public ResponseEntity<?> addSlot(@RequestBody NewSlotDetails newSlotDetails) {

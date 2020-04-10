@@ -45,4 +45,16 @@ public class AuthResponseBean {
 	public void setUser_first_name(String user_first_name) {
 		this.user_first_name = user_first_name;
 	}
+	
+    @Override
+    public String toString() {
+    	StringBuilder sb = new StringBuilder();
+    	sb.append("username:"+getUsername()+",");
+    	sb.append("user_role:"+getUser_role()+",");
+    	sb.append("isEnabled"+getIsEnabled()+",");
+    	sb.append("user_first_name"+getUser_first_name());
+    	
+    	return sb.toString();
+    }
+    
 }
