@@ -1,8 +1,11 @@
 package com.docappoint.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.docappoint.bean.DoctorProfileBean;
 import com.docappoint.requestbean.NewSlotDetails;
@@ -66,13 +70,21 @@ public class DoctorController {
 		return new ResponseEntity<List<SlotDetails>>(slotDetailList,HttpStatus.OK);
 	}
 	
-//	@GetMapping(path="/slotsAvl/{username}/date/{date}")
-//	public ResponseEntity<?> getSlotAvailability(@PathVariable String username
-//			                                    ,@PathVariable Date date){
-//		
-//		List<SlotAvailability> avlSlotList = docService.getDoctorProfile(username);
-//		return new ResponseEntity<List<SlotAvailability>>(avlSlotList,HttpStatus.OK);
-//	}
+	@GetMapping(path="/slotsAvl/{username}/date/{date}")
+	public ResponseEntity<?> getAvlSlots(@PathVariable String username
+			                                    ,@PathVariable String date){
+		 
+	    Date date1=null;
+		try {
+			date1 = new SimpleDateFormat("yyyy/mm/dd").parse(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+	    
+		List<SlotAvailability> avlSlotList = docService.getAvlSlots(username,date1);
+		return new ResponseEntity<List<SlotAvailability>>(avlSlotList,HttpStatus.OK);
+	}
 	
 	@PostMapping(path="/addSlot", produces="application/json")
 	public ResponseEntity<?> addSlot(@RequestBody NewSlotDetails newSlotDetails) {

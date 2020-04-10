@@ -1,10 +1,15 @@
 package com.docappoint.service;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+
 import com.docappoint.bean.DoctorProfileBean;
 import com.docappoint.constants.ApplicationConstants;
 import com.docappoint.repository.DoctorRepository;
@@ -12,6 +17,7 @@ import com.docappoint.requestbean.NewSlotDetails;
 import com.docappoint.responsebean.DocAppointBookings;
 import com.docappoint.responsebean.ProfileUpdateResponse;
 import com.docappoint.responsebean.ServiceResponse;
+import com.docappoint.responsebean.SlotAvailability;
 import com.docappoint.responsebean.SlotDetails;
 
 @Service
@@ -95,6 +101,40 @@ public class DoctorService {
 		}
 		return slotList;
 	}
+	
+	 public List<SlotAvailability> getAvlSlots(String doctorId,Date date){
+		 List<SlotAvailability> SlotAvlList = new ArrayList<SlotAvailability>();
+		 
+		 try {
+			   
+			 List<SlotDetails> allSlots = getAllSlots(doctorId);
+			 List<Integer> bookedSlots = docRepo.fetchBookedSlots(doctorId, date);
+			 
+			 for(SlotDetails allSlotDtls : allSlots) {
+				 
+				 SlotAvailability slotAvl = new SlotAvailability();
+				 
+				 slotAvl.setSlot_id(allSlotDtls.getSlot_id());
+				 slotAvl.setStart_time(allSlotDtls.getStart_time());
+				 slotAvl.setEnd_time(allSlotDtls.getEnd_time());
+				 slotAvl.setMeridiem_indicator(allSlotDtls.getMeridiem_indicator());
+				 
+				 if(bookedSlots.contains(allSlotDtls.getSlot_id())){
+					 
+					 slotAvl.setIsAvailable("N");
+				 }else {
+					 
+					 slotAvl.setIsAvailable("Y");
+				 }
+				 
+				 SlotAvlList.add(slotAvl);
+			 }
+		} catch (Exception ex) {
+			logger.error("Exception while fetching available slots, message:{}",ex.getMessage());
+		}
+		 
+		 return SlotAvlList;
+	 }
 	
 	public ServiceResponse addSlot(NewSlotDetails newSlotDetails) {
 		ServiceResponse response = new ServiceResponse();

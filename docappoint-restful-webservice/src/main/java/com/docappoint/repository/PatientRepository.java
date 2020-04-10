@@ -16,9 +16,11 @@ import com.docappoint.bean.PatientProfileBean;
 import com.docappoint.constants.ApplicationConstants;
 import com.docappoint.constants.DbConstants;
 import com.docappoint.constants.DbQueryConstant;
+import com.docappoint.requestbean.BookingDetails;
 import com.docappoint.requestbean.RegisterPatientBean;
 import com.docappoint.responsebean.DocAppointBookings;
 import com.docappoint.responsebean.DoctorSearchDetails;
+import com.docappoint.responsebean.ServiceResponse;
 
 @Repository
 public class PatientRepository {
@@ -266,6 +268,30 @@ public class PatientRepository {
 		}
 		
 		return doctorDetailsList;
+	}
+	
+	public boolean bookAppointment(BookingDetails bookingDetails) {
+        boolean isBooked = false;
+		
+		logger.info("Entering bookAppointment for doctorId:{},patient_id:{},slot_id:{}"
+				    ,bookingDetails.getDoctor_id()
+				    ,bookingDetails.getPatient_id()
+				    ,bookingDetails.getSlot_id());
+		logger.info("queryBookAppointment:{}",DbQueryConstant.queryBookAppointment);
+		
+		int bookingDetailsInsert = jdbcTemplate.update(DbQueryConstant.queryBookAppointment
+													  ,bookingDetails.getPatient_id()
+													  ,bookingDetails.getDoctor_id()
+													  ,bookingDetails.getSlot_id()
+													  ,bookingDetails.getBooking_date()
+													  ,bookingDetails.getSymptom_desc()
+													  ,"N"
+													  ,"");
+		if(bookingDetailsInsert>0) {
+			isBooked = true;
+		}
+		
+		return isBooked;
 	}
 	
 	public List<DocAppointBookings> fetchAllBookings(String patientId){

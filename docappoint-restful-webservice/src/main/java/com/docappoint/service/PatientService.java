@@ -7,9 +7,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+
 import com.docappoint.bean.PatientProfileBean;
 import com.docappoint.constants.ApplicationConstants;
 import com.docappoint.repository.PatientRepository;
+import com.docappoint.requestbean.BookingDetails;
 import com.docappoint.responsebean.DocAppointBookings;
 import com.docappoint.responsebean.DoctorSearchDetails;
 import com.docappoint.responsebean.ProfileUpdateResponse;
@@ -106,6 +109,27 @@ public class PatientService {
 		}
 		
 		return doctorSearchDetails;
+	}
+	
+	public ServiceResponse bookAppointment(BookingDetails bookingDetails) {
+		ServiceResponse response = new ServiceResponse();
+		
+		try {
+			if(patientRepo.bookAppointment(bookingDetails)) {
+				response.setMessage(ApplicationConstants.SUCCESS);
+			}else {
+				response.setMessage(ApplicationConstants.FAIL);
+			}
+			
+		}catch(Exception ex) {
+			logger.error("Exception while booking appointment for doctor_id:{},patient_id:{},slot_id:{}, mesage:{}"
+					,bookingDetails.getDoctor_id()
+					,bookingDetails.getPatient_id()
+					,bookingDetails.getSlot_id()
+					,ex.getMessage());
+		}
+		
+		return response;
 	}
 	
 	public List<DocAppointBookings> getAllBookings(String patientId){

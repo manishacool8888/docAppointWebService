@@ -6,7 +6,7 @@ public class SlotAvailability {
     private String start_time;
     private String end_time;
     private String meridiem_indicator;
-    private String isAvailable;
+    private String isAvailable; // Y or N
     
 	public int getSlot_id() {
 		return slot_id;

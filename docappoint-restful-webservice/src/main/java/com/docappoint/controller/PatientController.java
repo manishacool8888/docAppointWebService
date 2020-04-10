@@ -54,12 +54,12 @@ public class PatientController {
 		return new ResponseEntity<List<DoctorSearchDetails>>(doctorSearchDetails,HttpStatus.OK);
 	}
 	
-//	@PostMapping(path="/bookAppointment", produces="application/json")
-//	public ResponseEntity<?> bookAppointment(@RequestBody BookingDetails bookingDetails) {
-//		
-//		ServiceResponse serviceResponse = patientService.updatePatientProfile(patientProfile);
-//		return new ResponseEntity<ServiceResponse>(serviceResponse,HttpStatus.OK);
-//	}
+	@PostMapping(path="/bookAppointment", produces="application/json")
+	public ResponseEntity<?> bookAppointment(@RequestBody BookingDetails bookingDetails) {
+		
+		ServiceResponse serviceResponse = patientService.bookAppointment(bookingDetails);
+		return new ResponseEntity<ServiceResponse>(serviceResponse,HttpStatus.OK);
+	}
 	
 	@GetMapping(path="/bookings/{username}")
 	public ResponseEntity<?> getAllBookings(@PathVariable String username){

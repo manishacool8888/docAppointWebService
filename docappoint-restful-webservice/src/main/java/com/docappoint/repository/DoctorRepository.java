@@ -1,6 +1,7 @@
 package com.docappoint.repository;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -223,6 +224,26 @@ public class DoctorRepository {
 		}
 		
 		return slotDetailsList;
+	}
+	
+	public List<Integer> fetchBookedSlots(String doctorId,Date date){
+		
+		logger.info("Entering fetchBookedSlots for doctorId:{}, Date:{}",doctorId);
+		logger.info("queryFetchBookedSlots:{}",DbQueryConstant.queryFetchBookedSlots);
+		List<Integer> bookedSlotList = new ArrayList<Integer>();
+		
+		try {
+			
+			bookedSlotList =  jdbcTemplate.query
+					(DbQueryConstant.queryFetchBookedSlots
+					,new Object[] {doctorId,date,"N"}
+                    ,new BeanPropertyRowMapper<Integer>(Integer.class));
+			
+		}catch(DataAccessException de) {
+			logger.error("the query failed for fetchAllBookings, message:{}",de.getMessage());
+		}
+		
+		return bookedSlotList;
 	}
 	
 	public boolean addSlot(NewSlotDetails newSlotDetails) {

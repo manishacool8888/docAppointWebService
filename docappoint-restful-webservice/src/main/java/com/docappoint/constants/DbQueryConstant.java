@@ -39,6 +39,8 @@ public class DbQueryConstant {
 	public static final String queryFetchAllPatientBookings ="select bd.booking_id, dd.first_name, ds.speciality_name, bd.booking_date, bs.start_time, bs.end_time, bs.meridiem_indicator, bd.symptom_desc, bd.cancelled, bd.cancelled_by  from booking_details bd, doctor_details dd, doctor_speciality ds, booking_slots bs where bd.patient_id=? and bd.doctor_id=dd.doctor_id and bd.doctor_id=ds.doctor_id and bd.slot_id=bs.slot_id";
 	public static final String queryCancelPatientBooking="update booking_details set cancelled=? cancelled_by=? where booking_id=? and patient_id=?";
 	
+	public static final String queryBookAppointment="insert into booking_details (patient_id, doctor_id, slot_id, booking_date, symptom_desc, cancelled, cancelled_by) values (?,?,?,?,?,?,?)";
+	
 	/**********************************************************************************************/
 	
 	public static final String queryFetchDoctorFirstName="select first_name from doctor_details where doctor_id=?";	
@@ -61,4 +63,6 @@ public class DbQueryConstant {
 	public static final String queryFetchAllDoctorSlots="select slot_id, start_time, end_time, meridiem_indicator from booking_slots where doctor_id=?";
 	public static final String queryAddBookingSlot="insert into booking_slots (doctor_id,start_time,end_time, meridiem_indicator) values (?,?,?,?)";
 	public static final String queryDeleteBookingSlot="delete from booking_slots where slot_id=? and doctor_id=?";
+	
+	public static final String queryFetchBookedSlots="select slot_id from booking_details where doctor_id=? and booking_date=? and cancelled=?";
 }
