@@ -317,12 +317,16 @@ public class PatientRepository {
 		
 		logger.info("Entering cancal Booking for patientId:{}",patientId);
 		logger.info("queryCancelPatientBooking:{}",DbQueryConstant.queryCancelPatientBooking);
-		
-		int bookingCancelled = jdbcTemplate.update(DbQueryConstant.queryCancelPatientBooking
-				 								   ,"Y"
-				 								   ,ApplicationConstants.PATIENT
-				 								   ,bookingId
-				 								   ,patientId);
+		int bookingCancelled = 0;
+		try {
+			bookingCancelled = jdbcTemplate.update(DbQueryConstant.queryCancelPatientBooking
+					                              ,"Y"
+					                              ,ApplicationConstants.PATIENT
+					                              ,bookingId
+					                              ,patientId);
+		}catch(DataAccessException de) {
+			logger.error("cancal Booking failed for patientId:{},message:{}",patientId,de.getMessage());
+		}
 		
 		if(bookingCancelled>0) {
 			isBookingCancelled = true;

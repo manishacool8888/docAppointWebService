@@ -37,7 +37,7 @@ public class DbQueryConstant {
 	public static final String queryFetchDoctorDtlsByStateSpec="select dd.doctor_id, dd.first_name, dd.gender, dd.practicing_from, dd.consultation_fee, ds.speciality_name, dc.state, dc.city, dc.locality from doctor_details dd, doctor_speciality ds ,doctor_contact dc where dc.state=? and ds.speciality_name=? and dd.doctor_id=dc.doctor_id and dd.doctor_id=ds.doctor_id";
 	
 	public static final String queryFetchAllPatientBookings ="select bd.booking_id, dd.first_name, ds.speciality_name, bd.booking_date, bs.start_time, bs.end_time, bs.meridiem_indicator, bd.symptom_desc, bd.cancelled, bd.cancelled_by  from booking_details bd, doctor_details dd, doctor_speciality ds, booking_slots bs where bd.patient_id=? and bd.doctor_id=dd.doctor_id and bd.doctor_id=ds.doctor_id and bd.slot_id=bs.slot_id";
-	public static final String queryCancelPatientBooking="update booking_details set cancelled=? cancelled_by=? where booking_id=? and patient_id=?";
+	public static final String queryCancelPatientBooking="update booking_details set cancelled=? , cancelled_by=? where booking_id=? and patient_id=?";
 	
 	public static final String queryBookAppointment="insert into booking_details (patient_id, doctor_id, slot_id, booking_date, symptom_desc, cancelled, cancelled_by) values (?,?,?,?,?,?,?)";
 	
