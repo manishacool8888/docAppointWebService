@@ -58,7 +58,7 @@ public class DbQueryConstant {
 	public static final String queryUpdateDoctorQualification="update doctor_qualification set institute_name=?, procurement_date=? where doctor_id=?";
 	public static final String queryUpdateDoctorSpeciality="update doctor_speciality set speciality_name=? where doctor_id=?";
 	
-	public static final String queryCancelBooking="update booking_details set cancelled=? cancelled_by=? where booking_id=? and doctor_id=?";
+	public static final String queryCancelBooking="update booking_details set cancelled=? , cancelled_by=? where booking_id=? and doctor_id=?";
 	
 	public static final String queryFetchAllDoctorSlots="select slot_id, start_time, end_time, meridiem_indicator from booking_slots where doctor_id=?";
 	public static final String queryAddBookingSlot="insert into booking_slots (doctor_id,start_time,end_time, meridiem_indicator) values (?,?,?,?)";
